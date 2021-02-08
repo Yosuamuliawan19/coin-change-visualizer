@@ -16,7 +16,8 @@ export default function App() {
     let ans = cc(
       coinsRepresentation,
       coinsRepresentation.length,
-      parseInt(amount)
+      parseInt(amount),
+      0
     );
     console.log(ans);
     console.log(stepsTemporary);
@@ -25,14 +26,17 @@ export default function App() {
   };
   let stepsTemporary = [];
   let iter = 0;
-  const cc = (S, m, n) => {
-    stepsTemporary.push([iter, m, n]);
+  const cc = (S, m, n, dep) => {
+    if (stepsTemporary.length < dep + 1) {
+      stepsTemporary.push([]);
+    }
+    stepsTemporary[dep].push([iter, m, n, dep]);
     iter++;
     if (iter > 100) return;
     if (n == 0) return 1;
     if (n < 0) return 0;
     if (m <= 0 && n >= 1) return 0;
-    return cc(S, m - 1, n) + cc(S, m, n - S[m - 1]);
+    return cc(S, m - 1, n, dep + 1) + cc(S, m, n - S[m - 1], dep + 1);
   };
   return (
     <div>
@@ -53,15 +57,20 @@ export default function App() {
       <input
         type="number"
         value={amount}
-
         onChange={e => setAmount(e.target.value)}
       />
       <button onClick={_ => generate()} />
-      <div>
-        {steps.map(data => {
+      <div className="step-display-container">
+        {steps.map(row => {
           return (
-            <div>
-              Coins left: {data[1]} Amount: {data[2]}
+            <div className="step-display-row">
+              {row.map(data => {
+                return (
+                  <div className="step-display">
+                    Coins left: {data[1]} Amount: {data[2]} Depth: {data[3]}
+                  </div>
+                );
+              })}
             </div>
           );
         })}
