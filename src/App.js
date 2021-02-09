@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
+let currentTime = 0;
 
 export default function App() {
   const [coins, setCoins] = useState("[1,2,3]");
@@ -13,6 +14,8 @@ export default function App() {
   const generate = () => {
     console.log("trying");
     console.log([coins, parseInt(amount)]);
+    setSteps([]);
+
     let ans = cc(
       coinsRepresentation,
       coinsRepresentation.length,
@@ -21,7 +24,6 @@ export default function App() {
     );
     console.log(ans);
     console.log(stepsTemporary);
-    setSteps(stepsTemporary);
     setAnswer(ans);
   };
   let stepsTemporary = [];
@@ -36,6 +38,12 @@ export default function App() {
     if (n == 0) return 1;
     if (n < 0) return 0;
     if (m <= 0 && n >= 1) return 0;
+
+    setTimeout(_ => {
+      setSteps(stepsTemporary);
+      cc(S, m - 1, n, dep + 1) + cc(S, m, n - S[m - 1], dep + 1);
+    }, 500)
+
     return cc(S, m - 1, n, dep + 1) + cc(S, m, n - S[m - 1], dep + 1);
   };
   return (
@@ -66,7 +74,7 @@ export default function App() {
             <div className="step-display-row">
               {row.map(data => {
                 return (
-                  <div className="step-display">
+                  <div className="step-display slit-in-vertical">
                     Coins left: {data[1]} Amount: {data[2]} Depth: {data[3]}
                   </div>
                 );
