@@ -41,8 +41,7 @@ export default function App() {
 
     setTimeout(_ => {
       setSteps(stepsTemporary);
-      cc(S, m - 1, n, dep + 1) + cc(S, m, n - S[m - 1], dep + 1);
-    }, 500)
+    }, 500);
 
     return cc(S, m - 1, n, dep + 1) + cc(S, m, n - S[m - 1], dep + 1);
   };
