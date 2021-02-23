@@ -47,26 +47,40 @@ export default function App() {
   };
   return (
     <div>
-      <div className="coins-display">
-        {" "}
-        {coinsRepresentation.map(data => {
-          return (
-            <div className="coins-display-coin slit-in-vertical ">{data}</div>
-          );
-        })}
+      <div className="header">
+        <div className="title-text">Coin change simulator</div>
+        <div className="coins-display">
+          {" "}
+          {coinsRepresentation.map(data => {
+            return (
+              <div className="coins-display-coin slit-in-vertical ">{data}</div>
+            );
+          })}
+        </div>
+
+        <div className="amount-display"> {amount}</div>
+        <div className="flex-row">
+          <div className="input-container">
+            <div>Total Amount</div>
+            <input
+              className="text-box"
+              type="number"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+            />
+          </div>
+          <div className="input-container">
+            <div>Coin</div>
+            <input
+              className="text-box"
+              type="text"
+              value={coins}
+              onChange={e => setCoins(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
-      <div className="amount-display"> {amount}</div>
-      <input
-        type="text"
-        value={coins}
-        onChange={e => setCoins(e.target.value)}
-      />
-      <input
-        type="number"
-        value={amount}
-        onChange={e => setAmount(e.target.value)}
-      />
-      <button onClick={_ => generate()} />
+      <button className="run-btn" onClick={_ => generate()} />
       <div className="step-display-container">
         {steps.map(row => {
           return (
